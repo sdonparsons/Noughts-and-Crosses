@@ -1,3 +1,5 @@
+from numpy import *
+
 # Board values.
 EMPTY = 0
 CROSS = -1
@@ -23,12 +25,21 @@ class AI():
             if state == 0:
                 self.board.move(location, self.computer)
                 break
-        self._debug("No valid moves found.")
+
+        if not self.turn.is_player_turn():
+            self._debug("No valid moves found.")
 
 
     def _debug(self, message):
         """System console messaging"""
         print(f"______SYSMSG: '{message}'")
+
+    def set_self(self):
+        # Set computer nought or cross.
+        if self.turn.human == CROSS:
+            self.computer = NOUGHT
+        else:
+            self.computer = CROSS
                 
 
 

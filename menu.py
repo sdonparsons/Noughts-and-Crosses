@@ -5,11 +5,11 @@ from pygame.sprite import Sprite
 START_POS = (100, 100)
 START_SIZE = (626, 111)
 
-FIRST_POS = (100, 300)
-FIRST_SIZE = (321, 334)
+FIRST_POS = (75, 300)
+FIRST_SIZE = (300, 300)
 
-SECOND_POS = (450, 300)
-SECOND_SIZE = (226, 334)
+SECOND_POS = (425, 300)
+SECOND_SIZE = (300, 300)
 
 GREEN = (0, 255, 0)
 
@@ -66,7 +66,7 @@ class Menu():
     def update(self, mouse_pos):
         if self.start_rect.collidepoint(mouse_pos):
             self.game.turn.game_active = True   
-            self.game.ai.__init__(self.game)
+            self.game.ai.set_self()
 
         if self.first_rect.collidepoint(mouse_pos):
             self.game.turn.set_human_first(True)

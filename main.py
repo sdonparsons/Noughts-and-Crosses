@@ -5,6 +5,7 @@ import sys
 
 from ai import AI
 from board import Board
+from endgame import Endgame
 from menu import Menu
 from settings import Settings
 from turn import Turn
@@ -46,6 +47,9 @@ class GameEngine:
         # Create start menu object.
         self.menu = Menu(self)
 
+        # Create endgame menu object.
+        self.endgame = Endgame(self)
+
         # Create board.
         self.board = Board(self)
 
@@ -59,7 +63,7 @@ class GameEngine:
         # Game loop.
         while True:
 
-            if self.turn.game_active:
+            if self.turn.game_active and not self.turn.game_end:
                 # if AI turn then move.
                 if not self.turn.is_player_turn():
                     self.ai.move()
@@ -67,7 +71,7 @@ class GameEngine:
 
             # Update events.
             self._check_events()
-            
+
             # Update graphics.
             self._update_screen()
 
@@ -86,11 +90,15 @@ class GameEngine:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 # If game active:
-                if self.turn.game_active:
+                if self.turn.game_active and not self.turn.game_end:
                     # Update board, giving it location of mouse click in (x,y).
                     self.board.update(mouse_pos)
-                else:
+                # Show main menu.
+                elif not self.turn.game_active and not self.turn.game_end:
                     self.menu.update(mouse_pos)
+                # Show endgame screen.
+                elif not self.turn.game_active and self.turn.game_end:
+                    self.endgame.update(mouse_pos)
 
 
     def _debug(self, message):
@@ -105,10 +113,12 @@ class GameEngine:
         self.screen.fill(self.settings.bg_colour)
 
         # If game active:
-        if self.turn.game_active:
+        if self.turn.game_active and not self.turn.game_end:
             self.board.draw()
-        else:
+        elif not self.turn.game_active and not self.turn.game_end:
             self.menu.draw()
+        elif not self.turn.game_active and self.turn.game_end: 
+            self.endgame.draw()              
 
         # Make the most recently drawn screen visible.
         pygame.display.flip()  

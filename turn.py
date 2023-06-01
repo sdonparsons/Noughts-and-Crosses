@@ -7,7 +7,6 @@ NOUGHT = 1
 class Turn:
     """A class to keep track of whose turn it is."""
 
-
     def __init__(self, player_first):
         """Initialise the turn class."""
 
@@ -25,13 +24,24 @@ class Turn:
             self.human = NOUGHT
 
         self.game_active = False
+        self.game_end = False
+
+        self.winvalue = 0
 
 
     def set_human_first(self, human_first):
         if human_first == True:
+            # For new game: Reset number of moves.
+            self.num_moves = 0
+
+            # Set who goes first and correct piece.
             self.turn = 0
             self.human = self.CROSS
         else:
+            # For new game: Reset number of moves.
+            self.num_moves = 0
+
+            # Set who goes first and correct piece.
             self.turn = 1
             self.human = self.NOUGHT
 

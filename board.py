@@ -1,5 +1,8 @@
 import pygame
 
+from collections import OrderedDict
+from copy import deepcopy
+from numpy import *
 from pygame.sprite import Sprite
 
 # Board values.
@@ -19,15 +22,17 @@ BOTTOM_RIGHT = "BR"
 
 SQUARE_SIZE = (200, 200)
 
-EMPTY_BOARD = {TOP_LEFT: EMPTY, 
-                TOP_MIDDLE: EMPTY, 
-                TOP_RIGHT: EMPTY,
-                MIDDLE_LEFT: EMPTY, 
-                MIDDLE_MIDDLE: EMPTY, 
-                MIDDLE_RIGHT: EMPTY,
-                BOTTOM_LEFT: EMPTY, 
-                BOTTOM_MIDDLE: EMPTY, 
-                BOTTOM_RIGHT: EMPTY}
+EMPTY_BOARD = OrderedDict([
+    (TOP_LEFT, EMPTY),
+    (TOP_MIDDLE, EMPTY),
+    (TOP_RIGHT, EMPTY),
+    (MIDDLE_LEFT, EMPTY),
+    (MIDDLE_MIDDLE, EMPTY),
+    (MIDDLE_RIGHT, EMPTY),
+    (BOTTOM_LEFT, EMPTY),
+    (BOTTOM_MIDDLE, EMPTY),
+    (BOTTOM_RIGHT, EMPTY)
+])
 
 BOARD_COORDINATES = {TOP_LEFT: (50, 50), 
                     TOP_MIDDLE: (300, 50), 
@@ -79,7 +84,7 @@ class Board():
                         BOTTOM_RIGHT: self.square8}
         
         # Initialise an empty board.
-        self.board = EMPTY_BOARD
+        self.board = deepcopy(EMPTY_BOARD)
         
         # Images for noughts and crosses to draw to screen.
         self.X = pygame.image.load('images/x.png')
@@ -113,22 +118,82 @@ class Board():
 
 
     def move(self, location, player):
+        # Check move is valid, i.e. square is empty.
         if self.board[location] != EMPTY:
             self._debug("Invalid move.")
         else:
             self.board[location] = player
-        # Increment turn counter.
-        self.turn.increment_turn()
+            # Increment turn counter.
+            self.turn.increment_turn()
 
-        # Check for winning condition
+        # Check turn counter and number of moves
+        self._debug(f"Num moves: {self.turn.num_moves}")
+        self._debug(f"Turn counter: {self.turn.turn}")
+
+        # Convert the current board into matrix form, to check for win condition.
+        win_status = self.check_win(self.board_to_matrix())
+        self._debug(f"Winning condition: {win_status}")
+
+        # Check for winning condition.
+        if win_status != 0:
+            self.turn.winvalue = win_status
+            self.turn.game_end = True
+            self.turn.game_active = False
+
+        # Check for draw.
         if self.turn.num_moves == 9:
             self._debug("Board full.")
+            self.turn.winvalue = 0
+            self.turn.game_end = True
+            self.turn.game_active = False
 
+    def check_win(self, current_board):
+
+        self._debug(f"Current_board: \n {current_board}")
+
+        # Check rows.
+        for row in current_board:
+            row_sum = sum(row)
+            if row_sum == 3 or row_sum == -3:
+                return row_sum
+
+        # Check columns.
+        for col in current_board.T:
+            col_sum = sum(col)
+            if col_sum == 3 or col_sum == -3:
+                return col_sum
+
+        # Check diagonals.
+        diag_sum_1 = trace(current_board)
+        diag_sum_2 = trace(fliplr(current_board))
+        if diag_sum_1 == 3 or diag_sum_1 == -3:
+            return diag_sum_1
+        if diag_sum_2 == 3 or diag_sum_2 == -3:
+            return diag_sum_2
+
+        # No win.
+        return 0
+    
+
+    def reset(self):
+        # Initialise an empty board.
+        self.board = deepcopy(EMPTY_BOARD)
 
 
     """ Return the current board-state."""
     def current_board(self):
         return self.board
+    
+
+    def board_to_matrix(self):
+        board_values = list(self.board.values())
+
+        # Create a 3x3 matrix object from the board values/
+        matrix = array(board_values).reshape(3, 3)
+
+        # Print the matrix.
+        return matrix
+
         
 
     def _debug(self, message):
