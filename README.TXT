@@ -50,6 +50,6 @@ b) Center is taken. Then, move bottom right corner.
 
 6) If none of the above, move anywhere free. 
 
-![Alt text](/screenshots/screenshot00.png?raw=true "New Game Screen")
-![Alt text](/screenshots/screenshot01.png?raw=true "New Game Screen")
-![Alt text](/screenshots/screenshot02.png?raw=true "New Game Screen")
+<img src="screenshots/screenshot00.png">
+<img src="screenshots/screenshot01.png">
+<img src="screenshots/screenshot02.png">
