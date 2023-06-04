@@ -89,13 +89,12 @@ class Board():
         # Images for noughts and crosses to draw to screen.
         self.X = pygame.image.load('images/x.png')
         self.O = pygame.image.load('images/o.png')
+        self.grid = pygame.image.load('images/grid.png')
     
 
     def draw(self):
-        # Iterate through every board location.
-        for square in self.squares.values():
-            # Draw square: for display and hit detection.
-            pygame.draw.rect(self.screen, (0, 0, 0), square, 4)
+        # Draw grid
+        self.screen.blit(self.grid, (0, 0))
 
         for location, move in self.board.items():
             # Draw X or O dependent on state of game board.

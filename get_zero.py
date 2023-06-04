@@ -1,6 +1,6 @@
 from numpy import *
 
-def get_zero(array, type, index):
+def get_zero(board, type, index):
     """
     Will return one-dimensional list size two: containing the co-ordinates of element zero in a 3x3 array.
 
@@ -14,12 +14,12 @@ def get_zero(array, type, index):
 
     # Check valid array.
     # Should have three rows:
-    if len(array) != 3:
+    if len(board) != 3:
         print("ERROR: Array not 3x3.")
         return 1
     # Each row should have three columns.
-    for row in range(len(array)):
-        if len(array[row]) != 3:
+    for row in range(len(board)):
+        if len(board[row]) != 3:
             print("ERROR: Array not 3x3.")
             return 1
         
@@ -57,64 +57,5 @@ def get_zero(array, type, index):
             for i in range(0, 3):
                 if board[2 - i, i] == 0:
                     return [2 - i, i]
-
-
-
-board1 = array([
-    [1,-1, 0],
-    [0,-1, 0],
-    [1, 0, 0]
-])
-
-board2 = array([
-    [-1, 0, 0],
-    [0, -1, 0],
-    [0, 0, 1]
-])
-
-board3 = array([
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0]
-])
-
-# Set where we move, using array:
-move = array([
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0]
-])
-
-SET_BOARD = board1
-
-""" _______BOARD SETUP ETC_______ """
-
-# 1) TODO: normalise move.
-# Check am I negative or positive.
-# If negative then convert to positive
-
-SELF = 1
-PLAYER = -7
-EMPTY = 0
-
-# 2) change -1's to -7s
-for element in nditer(SET_BOARD, op_flags=['readwrite']):
-    if element == -1:
-        element[...] = -7
-
-# Set which board to test the logic:
-board = SET_BOARD
-print(board)
-print((board))
-
-print(range(len(board)))
-
-
-print("_____FUNCTION OUTPUT______")
-print(get_zero(board, 1, 0))
-
-
-
-
-
+                
 

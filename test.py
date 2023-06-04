@@ -1,3 +1,7 @@
+"""
+A script file for use in testing ideas and debugging.
+"""
+
 from numpy import *
 from get_zero import get_zero
 
@@ -85,8 +89,6 @@ for row in range(0, 3):
         position = get_zero(board, 0, row)
         move[position[0], position[1]] = SELF
 
-
-print(f"row sums: {row_sums}")
 # Sum columns.
 column_sums = [0, 0 ,0]
 for column in range(0, 3):
@@ -100,9 +102,6 @@ for column in range(0, 3):
         position = get_zero(board, 1, column)
         print(f"position: {position}")
         move[position[0], position[1]] = SELF # → Move
-
-
-print(f"Column sums: {column_sums}")
 
 # Sum diagonals.
 # Top left diagonal = 0 index, bottom left diagonal = 1 index.
@@ -123,32 +122,18 @@ if diagonal_sums[1] == 2:
     position = get_zero(board, 2, 1)
     move[position[0], position[1]] = SELF # → Move
 
+print("_____DEUBUGGING_____")
+print(f"Column sums: {column_sums}")
+print(f"Row sums: {row_sums}")
 print(f"Diagonal sums: {diagonal_sums}")
 
 """ 4) Will I lose? """
-
-#TODO: Fix this ... 
-"""
-Gave me this output.
-____BOARD:____
-[[ 1  0  0]
- [ 0  0  0]
- [-7 -7  0]]
-____MOVE:____
-[[0 0 0]
- [0 0 0]
- [0 1 0]]
-
-"""
+# Check sum of rows, columns, and diagonals are not -14.
 for row, sum in enumerate(row_sums):
     if sum == -14:
         # → Move
         position = get_zero(board, 0, row)
         move[position[0], position[1]] = SELF
-
-
-# TODO: implement below
-"""
 
 for column, sum in enumerate(column_sums):
     if sum == -14:
@@ -156,11 +141,30 @@ for column, sum in enumerate(column_sums):
         position = get_zero(board, 1, column)
         move[position[0], position[1]] = SELF # → Move
 
-for diagonal in diagonal_sums:
-    pass
+for diag, sum in enumerate(diagonal_sums):
+    if sum == -14:
+        # → Move
+        position = get_zero(board, 2, diag)
+        move[position[0], position[1]] = SELF # → Move
 
-    """
+""" 5) I think next best move will always be pick a corner based on the logic so far """
+if board[0, 0] == EMPTY:
+    move[0, 0] = SELF
+if board[0, 2] == EMPTY:
+    move[0, 2] = SELF
+if board[2, 0] == EMPTY:
+    move[2, 0] = SELF
+if board[2, 2] == EMPTY:
+    move[2, 2] = SELF
 
+
+""" 6) The next best move is a non-move, simply fill an empty square. This should now always win? """
+for row in range(len(board)):
+    for pos in range(len(board[row])):
+        if board[row][pos] == EMPTY:
+            move[row, pos] = SELF
+
+# TODO: Not sure I need move array. Maybe use just position - two numbers?
 
 print("____BOARD:____")
 print(board)

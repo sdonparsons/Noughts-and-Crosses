@@ -69,7 +69,7 @@ class GameEngine:
                     self.ai.move()
                 # Else do nothing and wait for player to move.
 
-            # Update events.
+            # Update events → i.e. check player move.
             self._check_events()
 
             # Update graphics.
@@ -87,6 +87,7 @@ class GameEngine:
             # Only do something if the event is of type QUIT.
             if event.type == pygame.QUIT:
                 sys.exit()
+            # Mouseclick events:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 # If game active:

@@ -3,9 +3,9 @@ import pygame
 from pygame.sprite import Sprite
 
 REPLAY_POS = (100, 100)
-REPLAY_SIZE = (626, 111)
+REPLAY_SIZE = (600, 150)
 
-WINNER_POS = (100, 300)
+WINNER_POS = (150, 300)
 WINNER_SIZE = (500, 200)
 
 class Endgame():
@@ -35,6 +35,7 @@ class Endgame():
         self.draw_game = pygame.image.load('images/draw.png')
 
     def draw(self):
+        self.game.board.draw()
         # Draw menu buttons.
         self.screen.blit(self.replay, REPLAY_POS)
         if self.turn.winvalue == 0:
