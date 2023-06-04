@@ -11,15 +11,15 @@ The old game of noughts and crosses (British English), or Tic-tac-toe (American 
 
 A starting board would look like this:
 
-[ 0  0  0 ]
-[ 0  0  0 ]
-[ 0  0  0 ]
+[ 0  0  0 ]<br>
+[ 0  0  0 ]<br>
+[ 0  0  0 ]<br>
 
 A diagonal win for player (1) would look like this:
 
-[ 1  0 -1 ]
-[ 0  1  0 ]
-[-1  0  1 ]
+[ 1  0 -1 ]<br>
+[ 0  1  0 ]<br>
+[-1  0  1 ]<br>
 
 The winning condition was solved using 3x3 matrix and by finding the sum of every, row, column, and both diagonals. A win would result in sum of either 3 or -3. Draw condition was defined as number of moves = 9 and no win condition (i.e. no row, column, diagnoal sum to -3).
 
